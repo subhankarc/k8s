@@ -13,6 +13,6 @@ spec:
     app: prometheus-server 
   ports: 
     - name: prometheus 
-      port: 8080
+      port: 80
       targetPort: prometheus
-#  type: LoadBalancer
+  type: LoadBalancer

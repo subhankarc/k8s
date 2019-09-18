@@ -1,28 +1,3 @@
-apiVersion: storage.k8s.io/v1beta1
-kind: StorageClass
-metadata:
-  name: fast
-  namespace: monitoring
-provisioner: kubernetes.io/gce-pd
-parameters:
-  type: pd-ssd
-allowVolumeExpansion: true
----
-apiVersion: "v1"
-kind: "PersistentVolume"
-metadata:
-  name: data-volume-1
-  namespace: monitoring
-spec:
-  capacity:
-    storage: 250Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: fast
-  gcePersistentDisk:
-    fsType: ext4
-    pdName: prometheus-volume
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -30,11 +5,12 @@ metadata:
   name: prometheus-claim
   namespace: monitoring
   annotations:
-    volume.beta.kubernetes.io/storage-class: "fast"
+    volume.beta.kubernetes.io/storage-class: "gp2"
 spec:
+  storageClassName: gp2
   accessModes:
     - ReadWriteOnce
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 250Gi
+      storage: 10Gi

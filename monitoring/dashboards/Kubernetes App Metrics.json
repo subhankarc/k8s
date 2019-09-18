@@ -93,7 +93,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "count(count(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (pod_name))",
+          "expr": "count(count(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (pod))",
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "pods",
@@ -101,7 +101,7 @@
           "step": 1
         },
         {
-          "expr": "count(count(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (kubernetes_io_hostname))",
+          "expr": "count(count(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (kubernetes_io_hostname))",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "hosts",
@@ -202,14 +202,14 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(container_cpu_system_seconds_total{container_name=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container_name) / sum(container_spec_cpu_shares{container_name=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container_name)",
+          "expr": "sum(irate(container_cpu_system_seconds_total{container=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container) / sum(container_spec_cpu_shares{container=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container)",
           "intervalFactor": 2,
           "legendFormat": "system",
           "refId": "C",
           "step": 2
         },
         {
-          "expr": "sum(irate(container_cpu_user_seconds_total{container_name=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container_name) / sum(container_spec_cpu_shares{container_name=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container_name)",
+          "expr": "sum(irate(container_cpu_user_seconds_total{container=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container) / sum(container_spec_cpu_shares{container=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container)",
           "interval": "",
           "intervalFactor": 2,
           "legendFormat": "user",
@@ -301,7 +301,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(container_cpu_usage_seconds_total{container_name=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container_name) / sum(container_spec_cpu_quota{container_name=\"$container\", namespace=\"$namespace\"} / container_spec_cpu_period{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name)",
+          "expr": "sum(irate(container_cpu_usage_seconds_total{container=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container) / sum(container_spec_cpu_quota{container=\"$container\", namespace=\"$namespace\"} / container_spec_cpu_period{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -395,7 +395,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) / sum(container_spec_memory_limit_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name)",
+          "expr": "sum(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) / sum(container_spec_memory_limit_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -486,16 +486,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(container_cpu_usage_seconds_total{container_name=\"$container\", namespace=\"$namespace\"}[30s])) by (id,pod_name)",
+          "expr": "sum(irate(container_cpu_usage_seconds_total{container=\"$container\", namespace=\"$namespace\"}[30s])) by (id,pod)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{pod_name}}",
+          "legendFormat": "{{pod}}",
           "refId": "A",
           "step": 2
         },
         {
-          "expr": "sum(container_spec_cpu_quota{container_name=\"$container\", namespace=\"$namespace\"} / container_spec_cpu_period{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) / count(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) ",
+          "expr": "sum(container_spec_cpu_quota{container=\"$container\", namespace=\"$namespace\"} / container_spec_cpu_period{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) / count(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) ",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "limit",
@@ -503,7 +503,7 @@
           "step": 2
         },
         {
-          "expr": "sum(container_spec_cpu_shares{container_name=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container_name) / count(container_spec_cpu_shares{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) ",
+          "expr": "sum(container_spec_cpu_shares{container=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container) / count(container_spec_cpu_shares{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) ",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "request",
@@ -592,16 +592,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (id,pod_name)",
+          "expr": "sum(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (id,pod)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 2,
-          "legendFormat": "{{pod_name}}",
+          "legendFormat": "{{pod}}",
           "refId": "A",
           "step": 2
         },
         {
-          "expr": "sum(container_spec_memory_limit_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) / count(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (container_name,namespace)",
+          "expr": "sum(container_spec_memory_limit_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) / count(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (container,namespace)",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "limit",
@@ -692,7 +692,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(container_cpu_usage_seconds_total{container_name=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container_name) / count(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) ",
+          "expr": "sum(irate(container_cpu_usage_seconds_total{container=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container) / count(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -701,7 +701,7 @@
           "step": 1
         },
         {
-          "expr": "sum(container_spec_cpu_quota{container_name=\"$container\", namespace=\"$namespace\"} / container_spec_cpu_period{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) / count(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) ",
+          "expr": "sum(container_spec_cpu_quota{container=\"$container\", namespace=\"$namespace\"} / container_spec_cpu_period{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) / count(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -710,7 +710,7 @@
           "step": 1
         },
         {
-          "expr": "sum(container_spec_cpu_shares{container_name=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container_name) / count(container_spec_cpu_shares{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) ",
+          "expr": "sum(container_spec_cpu_shares{container=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container) / count(container_spec_cpu_shares{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -803,7 +803,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) / count(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) ",
+          "expr": "sum(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) / count(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) ",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "actual",
@@ -812,7 +812,7 @@
           "step": 1
         },
         {
-          "expr": "sum(container_spec_memory_limit_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) / count(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name) ",
+          "expr": "sum(container_spec_memory_limit_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) / count(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container) ",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -906,7 +906,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(container_cpu_usage_seconds_total{container_name=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container_name)",
+          "expr": "sum(irate(container_cpu_usage_seconds_total{container=\"$container\", namespace=\"$namespace\"}[30s])) by (namespace,container)",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -917,7 +917,7 @@
           "step": 1
         },
         {
-          "expr": "sum(container_spec_cpu_quota{container_name=\"$container\", namespace=\"$namespace\"} / container_spec_cpu_period{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name)",
+          "expr": "sum(container_spec_cpu_quota{container=\"$container\", namespace=\"$namespace\"} / container_spec_cpu_period{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "limit",
@@ -925,7 +925,7 @@
           "step": 1
         },
         {
-          "expr": "sum(container_spec_cpu_shares{container_name=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container_name) ",
+          "expr": "sum(container_spec_cpu_shares{container=\"$container\", namespace=\"$namespace\"} / 1024) by (namespace,container) ",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "request",
@@ -1018,7 +1018,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(container_memory_usage_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name)",
+          "expr": "sum(container_memory_usage_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container)",
           "format": "time_series",
           "interval": "",
           "intervalFactor": 1,
@@ -1027,7 +1027,7 @@
           "step": 1
         },
         {
-          "expr": "sum(container_spec_memory_limit_bytes{container_name=\"$container\", namespace=\"$namespace\"}) by (namespace,container_name)",
+          "expr": "sum(container_spec_memory_limit_bytes{container=\"$container\", namespace=\"$namespace\"}) by (namespace,container)",
           "format": "time_series",
           "intervalFactor": 1,
           "legendFormat": "limit",
@@ -1093,7 +1093,7 @@
         "multi": false,
         "name": "namespace",
         "options": [],
-        "query": "label_values(container_memory_usage_bytes{namespace=~\".+\",container_name!=\"POD\"},namespace)",
+        "query": "label_values(container_memory_usage_bytes{namespace=~\".+\",container!=\"POD\"},namespace)",
         "refresh": 1,
         "regex": "",
         "sort": 1,
@@ -1113,7 +1113,7 @@
         "multi": false,
         "name": "container",
         "options": [],
-        "query": "label_values(container_memory_usage_bytes{namespace=~\"$namespace\",container_name!=\"POD\"},container_name)",
+        "query": "label_values(container_memory_usage_bytes{namespace=~\"$namespace\",container!=\"POD\"},container)",
         "refresh": 1,
         "regex": "",
         "sort": 1,
